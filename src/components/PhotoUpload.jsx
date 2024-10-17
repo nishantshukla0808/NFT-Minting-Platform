@@ -35,8 +35,8 @@ const PhotoUpload = ({ selectedTheme }) => {
   const [finalBase64, setFinalBase64] = useState('');
   const canvasRef = useRef(null);
   const [templateImage, setTemplateImage] = useState(null);
-
-  console.log(selectedTheme);
+  const [finalImgUrl,setFinalImgUrl] = useState('');
+  // console.log(selectedTheme);
  
   const templateCoords = {
     x1: 254, y1: 254,
@@ -146,8 +146,7 @@ const PhotoUpload = ({ selectedTheme }) => {
                         templateCoords.x2 - templateCoords.x1, 
                         templateCoords.y2 - templateCoords.y1);
           
-          // Compress the image
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); // Adjust quality as needed
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); 
           setFinalBase64(compressedBase64);
           imageToUrl(compressedBase64);
         };
@@ -166,21 +165,20 @@ const PhotoUpload = ({ selectedTheme }) => {
     setLoading(true);
 
     try {
-      // First API call
       const response = await axios.post('https://nft-mint-back.vercel.app/api/v1/image/geturl', {
         base64Data: base64Data,
       });
   
-      console.log("Response from first API: ", response.data);
+      // console.log("Response from first API: ", response.data);
       
       const { imageUrl } = response.data;
-      
+      setFinalImgUrl(imageUrl);
       const secondResponse = await axios.post('https://nft-mint-back.vercel.app/api/v1/mint/NFT', {
         imageUrl: imageUrl,
         recipientEmail: email
       });
       
-      console.log("Response from second API: ", secondResponse.data);
+      // console.log("Response from second API: ", secondResponse.data);
       
       setShowConfirmation(true);
     } catch (error) {
@@ -190,8 +188,12 @@ const PhotoUpload = ({ selectedTheme }) => {
     }
   };
 
+  if (loading) {
+    return <LoadingScreen />; 
+  }
+
   if (showConfirmation) {
-    return <ConfirmationPage base64Data={finalBase64} />;
+    return <ConfirmationPage imageUrl={finalImgUrl} />;
   }
 
   return (
@@ -233,7 +235,7 @@ const PhotoUpload = ({ selectedTheme }) => {
               borderColor: "white", 
             },
             "&:hover fieldset": {
-              borderColor: "white", 
+              borderColor: "black", 
             },
             "&.Mui-focused fieldset": {
               borderColor: "white", 
@@ -268,7 +270,7 @@ const PhotoUpload = ({ selectedTheme }) => {
       </label>
 
       {photo && (
-        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
+        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1,color:"white" }}>
           {photo.name}
         </Typography>
       )}
@@ -283,8 +285,6 @@ const PhotoUpload = ({ selectedTheme }) => {
       </StyledButton>
 
       <canvas ref={canvasRef} style={{ display: 'none' }} />
-
-      {loading && <LoadingScreen />}
     </Box>
   );
 };
