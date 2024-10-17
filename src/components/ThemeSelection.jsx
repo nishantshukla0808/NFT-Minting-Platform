@@ -5,31 +5,31 @@ import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 const themes = [
   {
     name: "Fire",
-    image: "fire-theme.jpg",
+    image: "https://i.ibb.co/c83hydd/2151073823.jpg",
     description: "Fire represents passion, energy, and transformation. It is associated with courage and determination, bringing warmth and light to dark spaces. It signifies a fierce drive and a spark that ignites creativity and innovation. Fire is linked with purification and can transform, destroy, and renew. Those who choose the fire theme often embody an ambitious, daring spirit.",
     background: "linear-gradient(135deg, #ff512f, #dd2476)",
   },
   {
     name: "Water",
-    image: "water-theme.jpg",
+    image: "https://i.ibb.co/7nsPSQ4/2147608332.jpg",
     description: "Water symbolizes life, renewal, and emotions. It is connected to peace, healing, and intuition, representing a flow that is adaptable and calming. Water nourishes, cleanses, and is essential for survival. It can be gentle like a stream or powerful like an ocean. People attracted to the water theme are often calm, reflective, and empathetic, embracing change with grace.",
     background: "linear-gradient(135deg, #36d1dc, #5b86e5)",
   },
   {
     name: "Air",
-    image: "air-theme.jpg",
+    image: "https://i.ibb.co/M5mWMSp/3679.jpg",
     description: "Air represents intellect, communication, and the breath of life. It is associated with freedom, inspiration, and the power of ideas. Air circulates and connects, clearing the path for new perspectives. It carries whispers of knowledge and fosters curiosity. The air theme suits those who are innovative, thoughtful, and expressive.",
     background: "linear-gradient(135deg, #b2fefa, #0ed2f7)",
   },
   {
     name: "Earth",
-    image: "earth-theme.jpg",
+    image: "https://i.ibb.co/ft978Rz/rb-2147909252.png",
     description: "Earth symbolizes stability, growth, and nature. It represents strength, nourishment, and the cycle of life, rooted in reality and grounded in perseverance. The earth is home and provides a foundation for all living things. It is for those who value endurance, practicality, and a connection to nature's beauty and resilience.",
     background: "linear-gradient(135deg, #7b920a, #add100)",
   },
   {
     name: "Space",
-    image: "space-theme.jpg",
+    image: "https://i.ibb.co/jWxc4s2/465.jpg",
     description: "Space embodies the infinite, the unknown, and the limitless. It represents exploration, curiosity, and the mysteries of the cosmos. Space invites wonder and challenges us to look beyond the familiar. It symbolizes the vastness of possibilities and encourages the pursuit of dreams. Ideal for visionaries and explorers of the mind.",
     background: "linear-gradient(135deg, #2b5876, #4e4376)",
   },
@@ -61,6 +61,8 @@ const ThemeSelection = ({ onSelectTheme }) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+
 
   return (
     <Box
@@ -102,6 +104,7 @@ const ThemeSelection = ({ onSelectTheme }) => {
         onClick={() => onSelectTheme(currentTheme.name)}
       >
         <CardMedia
+          key={currentTheme.image} // Key prop to force re-render
           component="img"
           height="250" // Increased height
           image={currentTheme.image}

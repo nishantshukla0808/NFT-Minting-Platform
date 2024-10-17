@@ -1,25 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { CircularProgress, Box, Typography } from '@mui/material';
+import React from 'react';
+import { CircularProgress, Box, Typography, keyframes } from '@mui/material';
 
-const LoadingScreen = ({ onComplete }) => {
-  const [progress, setProgress] = useState(0);
+const fadeInOut = keyframes`
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+`;
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          onComplete();
-        }
-        return prev + 10;
-      });
-    }, 500);
-  }, []);
-
+const LoadingScreen = () => {
   return (
-    <Box sx={{ textAlign: 'center', padding: 2 }}>
-      <CircularProgress variant="determinate" value={progress} />
-      <Typography variant="h6">Loading... {progress}%</Typography>
+    <Box
+      sx={{
+        textAlign: 'center',
+        padding: 2,
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: 'linear-gradient(to right, #000032, #001f4d)', 
+      }}
+    >
+      <CircularProgress />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          animation: `${fadeInOut} 2s infinite`,
+          color: 'white', // Set text color to white
+        }}
+      >
+        Loading...
+      </Typography>
     </Box>
   );
 };

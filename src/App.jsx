@@ -3,6 +3,8 @@ import ThemeSelection from './components/ThemeSelection';
 import PhotoUpload from './components/PhotoUpload';
 import LoadingScreen from './components/LoadingScreen';
 import ConfirmationPage from './components/ConfirmationPage';
+import "./App.css";
+import Header from "./components/Header";
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('themeSelection');
@@ -14,37 +16,33 @@ const App = () => {
     setCurrentPage('photoUpload');
   };
 
-  const handleUploadComplete = (file, email) => {
-    setCurrentPage('loading');
-    // Simulate backend processing for image editing
-    setTimeout(() => {
-      setEditedImage('/path/to/edited/image.jpg');
-      setCurrentPage('confirmation');
-    }, 3000);
-  };
+  // const handleUploadComplete = (file, email) => {
+  //   setCurrentPage('loading');
+    
+  //   setTimeout(() => {
+  //     setEditedImage('/path/to/edited/image.jpg'); // Replace with actual image path
+  //     setCurrentPage('confirmation');
+  //   }, 3000);
+  // };
 
-  const handleLoadingComplete = () => {
-    setCurrentPage('confirmation');
-  };
-
-  const handleShare = (platform) => {
-    // Logic to share on social media
-  };
 
   return (
     <div>
+      <Header />
       {currentPage === 'themeSelection' && (
         <ThemeSelection onSelectTheme={handleThemeSelect} />
       )}
       {currentPage === 'photoUpload' && (
-        <PhotoUpload onUploadComplete={handleUploadComplete} />
+        <PhotoUpload 
+          selectedTheme={theme} // Pass the selected theme as a prop
+        />
       )}
-      {currentPage === 'loading' && (
+      {/* {currentPage === 'loading' && (
         <LoadingScreen onComplete={handleLoadingComplete} />
       )}
       {currentPage === 'confirmation' && (
         <ConfirmationPage editedImage={editedImage} onShare={handleShare} />
-      )}
+      )} */}
     </div>
   );
 };
