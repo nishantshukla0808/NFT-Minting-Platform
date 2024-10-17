@@ -16,13 +16,14 @@ const Header = () => {
       <Typography
         variant="h4"
         sx={{
-          fontFamily: 'Montserrat, sans-serif', // Use Montserrat font
           flex: 1,
           textAlign: 'left',
-          fontWeight: '600', // Increase the font weight (can use values like 500, 600, or 700)
+          fontWeight: '600', // Increase font weight
+          fontSize: '2.5rem', // Adjust font size for a logo-like appearance
+          fontFamily: '"Kumar One", serif', // Directly apply the Kumar One font
         }}
       >
-        Minter
+        Mini Minter 
       </Typography>
     </Box>
   );
