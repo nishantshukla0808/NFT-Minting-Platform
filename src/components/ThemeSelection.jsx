@@ -89,13 +89,13 @@ const ThemeSelection = ({ onSelectTheme }) => {
 
       <Card
         sx={{
-          width: { xs: '90%', sm: '75%', md: '60%' }, 
-          height: 'auto', 
+          width: { xs: '90%', sm: '75%', md: '60%' }, // Increased width
+          height: 'auto', // Auto height for better content fit
           textAlign: 'center',
           background: currentTheme.background,
           color: '#fff',
           borderRadius: 4,
-          padding: 4, 
+          padding: 4, // Increased padding
           boxShadow: '0 6px 15px rgba(0,0,0,0.5)',
           position: 'relative',
         }}
@@ -103,26 +103,26 @@ const ThemeSelection = ({ onSelectTheme }) => {
       >
         <CardMedia
           component="img"
-          height="250" 
+          height="250" // Increased height
           image={currentTheme.image}
           alt={`${currentTheme.name} theme`}
           sx={{ borderRadius: '4px' }}
         />
         <CardContent>
           <Typography 
-            variant="h4" 
+            variant="h4" // Increased font size for theme name
             fontFamily="'Dancing Script', cursive"
-            sx={{ mb: 2 }} 
+            sx={{ mb: 2 }} // Margin bottom
           >
             {currentTheme.name}
           </Typography>
           <Typography 
-            variant="body1" 
+            variant="body1" // Increased font size for description
             sx={{ 
               marginTop: 1, 
-              fontSize: '1rem', 
+              fontSize: '1rem', // Increased font size
               lineHeight: 1.5,
-              textAlign: 'justify', 
+              textAlign: 'justify', // Justify text
             }}
           >
             {currentTheme.description}

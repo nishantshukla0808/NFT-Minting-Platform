@@ -4,50 +4,26 @@ import { Box, Button, TextField } from '@mui/material';
 const PhotoUpload = ({ onUploadComplete }) => {
   const [email, setEmail] = useState('');
   const [file, setFile] = useState(null);
-  const [error, setError] = useState('');
 
   const handleSubmit = () => {
-    if (!file) {
-      setError('Please upload a file.');
-      return;
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      setError('Please enter a valid email.');
-      return;
-    }
-
-    setError(''); 
+    // Simulate upload process
     onUploadComplete(file, email);
   };
 
   return (
-    <Box
-      sx={{
-        padding: 2,
-        background: 'linear-gradient(to right, #000032, #001f4d)',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Box sx={{ padding: 2 }}>
       <TextField
         type="file"
         onChange={(e) => setFile(e.target.files[0])}
         fullWidth
-        sx={{ marginBottom: 2, background: 'white' }}
+        sx={{ marginBottom: 2 }}
       />
       <TextField
         label="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         fullWidth
-        sx={{ marginBottom: 2, background: 'white' }}
-        error={!!error} 
-        helperText={error && error} 
+        sx={{ marginBottom: 2 }}
       />
       <Button variant="contained" onClick={handleSubmit}>
         Submit

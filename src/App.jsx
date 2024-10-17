@@ -3,8 +3,6 @@ import ThemeSelection from './components/ThemeSelection';
 import PhotoUpload from './components/PhotoUpload';
 import LoadingScreen from './components/LoadingScreen';
 import ConfirmationPage from './components/ConfirmationPage';
-import Header from "./components/header"
-import "./App.css";
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('themeSelection');
@@ -29,10 +27,12 @@ const App = () => {
     setCurrentPage('confirmation');
   };
 
+  const handleShare = (platform) => {
+    // Logic to share on social media
+  };
 
   return (
     <div>
-      <Header/>
       {currentPage === 'themeSelection' && (
         <ThemeSelection onSelectTheme={handleThemeSelect} />
       )}
@@ -43,7 +43,7 @@ const App = () => {
         <LoadingScreen onComplete={handleLoadingComplete} />
       )}
       {currentPage === 'confirmation' && (
-        <ConfirmationPage editedImage={editedImage} />
+        <ConfirmationPage editedImage={editedImage} onShare={handleShare} />
       )}
     </div>
   );
