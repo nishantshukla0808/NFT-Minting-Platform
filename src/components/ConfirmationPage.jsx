@@ -2,8 +2,7 @@ import React from 'react';
 import { Box, IconButton } from '@mui/material';
 import { Instagram, LinkedIn, Twitter } from '@mui/icons-material';
 
-const ConfirmationPage = ({ editedImage }) => {
-  // Function to create the share links
+const ConfirmationPage = ({ base64Data }) => {
   const handleShare = (platform) => {
     const text = encodeURIComponent("By ACM student chapter");
     const hashtags = encodeURIComponent("#NFT");
@@ -16,12 +15,12 @@ const ConfirmationPage = ({ editedImage }) => {
         break;
 
       case 'linkedin':
-        url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(editedImage)}&title=${text}&summary=${text}&source=ACM Student Chapter`;
+        url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(base64Data)}&title=${text}&summary=${text}&source=ACM Student Chapter`;
         window.open(url, '_blank');
         break;
 
       case 'twitter':
-        url = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(editedImage)}&hashtags=${hashtags}`;
+        url = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(base64Data)}&hashtags=${hashtags}`;
         window.open(url, '_blank');
         break;
 
@@ -36,14 +35,18 @@ const ConfirmationPage = ({ editedImage }) => {
         textAlign: 'center',
         padding: 2,
         minHeight: '100vh',
-        display: 'flex', // Use flexbox for centering
+        display: 'flex', 
         flexDirection: 'column',
-        justifyContent: 'center', // Center vertically
-        alignItems: 'center', // Center horizontally
+        justifyContent: 'center', 
+        alignItems: 'center', 
         background: 'linear-gradient(to right, #000032, #001f4d)', 
       }}
     >
-      <img src={editedImage} alt="Edited Preview" style={{ width: '80%', maxWidth: '600px', marginBottom: '20px' }} />
+      <img
+        src={`data:image/png;base64,${base64Data}`}
+        alt="Edited Preview"
+        style={{ width: '80%', maxWidth: '600px', marginBottom: '20px' }}
+      />
       <Box>
         <IconButton onClick={() => handleShare('instagram')}>
           <Instagram sx={{ color: 'white' }} />

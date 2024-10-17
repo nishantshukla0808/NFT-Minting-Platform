@@ -12,9 +12,9 @@ import AirTemplate from '../assets/Air.png';
 import WaterTemplate from '../assets/Water.png';
 import SpaceTemplate from '../assets/Space.png';
 import EarthTemplate from '../assets/Earth.png';
-import axios from "axios"
+import axios from "axios";
 import LoadingScreen from './LoadingScreen';
-import ConfirmationPage from "./ConfirmationPage"
+import ConfirmationPage from "./ConfirmationPage";
 
 const StyledButton = styled(Button)(() => ({
   background: 'linear-gradient(135deg, #36d1dc, #5b86e5)',
@@ -30,6 +30,9 @@ const PhotoUpload = ({ selectedTheme }) => {
   const [photo, setPhoto] = useState(null);
   const [emailError, setEmailError] = useState('');
   const [photoError, setPhotoError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [finalBase64, setFinalBase64] = useState('');
   const canvasRef = useRef(null);
   const [templateImage, setTemplateImage] = useState(null);
 
@@ -138,15 +141,15 @@ const PhotoUpload = ({ selectedTheme }) => {
 
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(templateImage, 0, 0);
-
          
           ctx.drawImage(img, templateCoords.x1, templateCoords.y1, 
                         templateCoords.x2 - templateCoords.x1, 
                         templateCoords.y2 - templateCoords.y1);
           
-     
-          const finalBase64 = canvas.toDataURL('image/png');
-          imageToUrl(finalBase64);
+          // Compress the image
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); // Adjust quality as needed
+          setFinalBase64(compressedBase64);
+          imageToUrl(compressedBase64);
         };
         
         img.src = base64String;
@@ -159,19 +162,37 @@ const PhotoUpload = ({ selectedTheme }) => {
   };
 
   const imageToUrl = async (base64Data) => {
-    console.log("Final Base64 Data: ", base64Data);
-  
+    console.log("Compressed Base64 Data length: ", base64Data);
+    setLoading(true);
+
     try {
+      // First API call
       const response = await axios.post('https://nft-mint-back.vercel.app/api/v1/image/geturl', {
         base64Data: base64Data,
       });
   
-      // Log the response or handle it as needed
-      console.log("Response from API: ", response.data);
+      console.log("Response from first API: ", response.data);
+      
+      const { imageUrl } = response.data;
+      
+      const secondResponse = await axios.post('https://nft-mint-back.vercel.app/api/v1/mint/NFT', {
+        imageUrl: imageUrl,
+        recipientEmail: email
+      });
+      
+      console.log("Response from second API: ", secondResponse.data);
+      
+      setShowConfirmation(true);
     } catch (error) {
-      console.error("Error making the API call: ", error);
+      console.error("Error making the API calls: ", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (showConfirmation) {
+    return <ConfirmationPage base64Data={finalBase64} />;
+  }
 
   return (
     <Box
@@ -263,6 +284,7 @@ const PhotoUpload = ({ selectedTheme }) => {
 
       <canvas ref={canvasRef} style={{ display: 'none' }} />
 
+      {loading && <LoadingScreen />}
     </Box>
   );
 };
